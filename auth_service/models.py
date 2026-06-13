@@ -8,6 +8,7 @@ phone_regex = RegexValidator(
 )
 
 class User(models.Model):
+    full_name = models.CharField(max_length=150)
     phone = models.CharField(max_length=13, validators=[phone_regex], unique=True)
     email = models.EmailField(unique=True)
     password_hash = models.CharField(max_length=128)
@@ -15,7 +16,6 @@ class User(models.Model):
 
 class UserKYC(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=150)
 
     passport_series = models.CharField(max_length=2)
     passport_number = models.CharField(max_length=7)
