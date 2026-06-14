@@ -16,8 +16,14 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class UserKYCStatus(models.TextChoices):
+    PENDING = 'PENDING', 'Pending'
+    APPROVED = 'APPROVED', 'Approved'
+    REJECTED = 'REJECTED', 'Rejected'
+
+
 class UserKYC(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_kyc')
 
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
@@ -30,35 +36,7 @@ class UserKYC(models.Model):
     passport_number = models.CharField(max_length=7)
     pinfl = models.CharField(max_length=14, unique=True)
 
-    status = models.CharField(max_length=100, default='pending')
+    status = models.CharField(max_length=100, choices=UserKYCStatus.choices, default=UserKYCStatus.PENDING)
 
     is_verified = models.BooleanField(default=False)
     verified_at = models.DateTimeField(null=True, blank=True)
-
-
-class Permission(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    code = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Role(models.Model):
-    name = models.CharField(max_length=150, unique=True)
-    level = models.PositiveIntegerField()
-    permissions = models.ManyToManyField(Permission, related_name='roles')
-    description = models.TextField()
-
-
-class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    employee_number = models.CharField(max_length=200, unique=True)
-    position = models.CharField(max_length=128)
-    role = models.ForeignKey(Role, null=True, on_delete=models.SET_NULL)
-    is_active = models.BooleanField(default=True)
-
-
-
-
