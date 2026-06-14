@@ -7,9 +7,13 @@ class EntryType(models.TextChoices):
     CREDIT = 'CREDIT', 'Credit'
 
 
+
+
+
 class TransactionRecord(models.Model):
     transaction = models.ForeignKey('Transaction', on_delete=models.PROTECT, related_name='records')
     account = models.ForeignKey('Account', on_delete=models.PROTECT, related_name='records')
+    # role =
     entry_type = models.CharField(max_length=10, choices=EntryType.choices)
     amount = models.BigIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)

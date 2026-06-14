@@ -7,6 +7,13 @@ phone_regex = RegexValidator(
     message='Phone number must be entered in the format: +998xxxxxxxxx'
 )
 
+
+class UserKYCStatus(models.TextChoices):
+    PENDING = 'PENDING', 'Pending'
+    APPROVED = 'APPROVED', 'Approved'
+    REJECTED = 'REJECTED', 'Rejected'
+
+
 class User(models.Model):
     phone = models.CharField(max_length=13, validators=[phone_regex], unique=True)
     email = models.EmailField(unique=True, null=True, blank=True)
@@ -14,12 +21,6 @@ class User(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class UserKYCStatus(models.TextChoices):
-    PENDING = 'PENDING', 'Pending'
-    APPROVED = 'APPROVED', 'Approved'
-    REJECTED = 'REJECTED', 'Rejected'
 
 
 class UserKYC(models.Model):
