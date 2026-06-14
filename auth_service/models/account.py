@@ -12,6 +12,7 @@ class Account(models.Model):
     account_number = models.CharField(max_length=200, unique=True)
     status = models.CharField(max_length=100, choices=AccountStatus.choices, default=AccountStatus.ACTIVE)
     balance = models.BigIntegerField(default=0)
+    currency = models.ForeignKey('Currency', on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

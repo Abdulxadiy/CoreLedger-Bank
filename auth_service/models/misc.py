@@ -29,3 +29,9 @@ class Card(models.Model):
     account = models.ForeignKey('Account', on_delete=models.CASCADE, related_name='cards')
     card_number = models.CharField(max_length=16, unique=True)
     expire_date = models.DateField()
+
+
+class Currency(models.Model):
+    code = models.CharField(max_length=3, unique=True)
+    name = models.CharField(max_length=50)
+    symbol = models.CharField(max_length=10)
